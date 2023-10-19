@@ -12,9 +12,6 @@ workflows:
         PACKAGE_NAME: "io.codemagic.sample.digitalai"
       node: 15.13.0
     scripts:
-      - name: Install npm dependencies
-        script: |
-          npm install
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
