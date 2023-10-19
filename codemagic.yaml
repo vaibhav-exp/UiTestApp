@@ -10,7 +10,6 @@ workflows:
         - DAI
       vars:
         PACKAGE_NAME: "io.codemagic.sample.digitalai"
-      node: 15.13.0
     scripts:
       - name: Set Android SDK location
         script: |
