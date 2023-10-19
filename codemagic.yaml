@@ -31,6 +31,7 @@ workflows:
               -H "Authorization: Bearer $access_key" \
               -F file=@app/build/outputs/apk/release/app-release.apk \
               -F "uniqueName=vstest_2")
+            echo $APP_URL
       - name: DigitalAi runTest
         script: |
             TEST_URL=$(curl -X POST "https://globaldemo.experitest.com/api/v1/test-run/execute-test-run-async" \
@@ -41,5 +42,6 @@ workflows:
               -F testApp=@app/build/outputs/apk/androidTest/release/app-release-androidTest.apk \
               -F 'deviceQueries="@os='\''android'\''"' \
               -F "useTestOrchestrator=true") 
+            echo $TEST_URL
     artifacts:
         - app/build/outputs/**/*.apk
