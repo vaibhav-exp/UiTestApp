@@ -29,16 +29,16 @@ workflows:
         script: |      
             APP_URL=$(curl -X POST "https://globaldemo.experitest.com/api/v1/applications/new" \
               --header 'Authorization: Bearer $access_key' \
-              -F "file=@android/app/build/outputs/apk/release/app-release.apk" \
+              -F "file=@app/build/outputs/apk/release/app-release.apk" \
               -F 'uniqueName="vstest_1"')
 
             TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run-async' \
               --header 'Authorization: Bearer $access_key' \
               --form 'executionType="Espresso"' \
               --form 'runningType="fastFeedback"' \
-              --form 'app=@android/app/build/outputs/apk/release/app-release.apk' \
-              --form 'testApp=@android/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk' \
+              --form 'app=@app/build/outputs/apk/release/app-release.apk' \
+              --form 'testApp=@app/build/outputs/apk/androidTest/release/app-release-androidTest.apk' \
               --form 'deviceQueries="@os='\''android'\''"' \
               --form 'useTestOrchestrator="true"') 
     artifacts:
-        - android/app/build/outputs/**/*.apk
+        - app/build/outputs/**/*.apk
