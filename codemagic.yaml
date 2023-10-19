@@ -10,6 +10,7 @@ workflows:
         - DAI
       vars:
         PACKAGE_NAME: "com.example.uitestapp"
+      java: 17
     scripts:
       - name: Set Android SDK location
         script: |          
