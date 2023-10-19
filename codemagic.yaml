@@ -31,14 +31,14 @@ workflows:
               -H "Authorization: Bearer $access_key" \
               -F file=@app/build/outputs/apk/release/app-release.apk \
               -F "uniqueName=vstest_1")
-
-            TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run-async' \
+      - name: DigitalAi runTest
+            TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run' \
               -H 'Authorization: Bearer $access_key' \
               -F "executionType=Espresso" \
               -F "runningType=fastFeedback" \
               -F app=@app/build/outputs/apk/release/app-release.apk \
               -F testApp=@app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              -F 'deviceQueries="@os='\''android'\''"' \
+              -F "deviceQueries=@os='android'" \
               -F "useTestOrchestrator=true") 
     artifacts:
         - app/build/outputs/**/*.apk
