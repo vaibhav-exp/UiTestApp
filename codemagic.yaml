@@ -9,12 +9,12 @@ workflows:
       groups:
         - DAI
       vars:
-        PACKAGE_NAME: "io.codemagic.sample.digitalai"
+        PACKAGE_NAME: "com.example.uitestapp"
     scripts:
       - name: Set Android SDK location
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT"
-          # echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+          # echo "sdk.dir=$ANDROID_SDK_ROOT"
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
       - name: Build Android Test release
         script: |
           cd android && ./gradlew assembleAndroidTest
