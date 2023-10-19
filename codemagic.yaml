@@ -32,6 +32,7 @@ workflows:
               -F file=@app/build/outputs/apk/release/app-release.apk \
               -F "uniqueName=vstest_1")
       - name: DigitalAi runTest
+        script: |
             TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run' \
               -H 'Authorization: Bearer $access_key' \
               -F "executionType=Espresso" \
