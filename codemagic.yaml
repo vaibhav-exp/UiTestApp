@@ -1,0 +1,49 @@
+workflows:
+  dai-workflow:
+    name: Android Espresso Tests
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      android_signing:
+        - keystore_reference
+      groups:
+        - DAI
+      vars:
+        PACKAGE_NAME: "io.codemagic.sample.digitalai"
+      node: 15.13.0
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm install
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build Android Test release
+        script: |
+          cd android && ./gradlew assembleAndroidTest
+      - name: Build Android release
+        script: |
+          # Set environment variable so it can be used to increment build number in android/app/build.gradle
+          # export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks=alpha) + 1))             
+
+          export NEW_BUILD_NUMBER=$(($(firebase-app-distribution get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
+          cd android && ./gradlew assembleRelease
+      - name: DigitalAi upload
+        script: |      
+            APP_URL=$(curl -X POST "https://globaldemo.experitest.com/api/v1/applications/new" \
+              --header 'Authorization: Bearer $access_key' \
+              -F "file=@android/app/build/outputs/apk/release/app-release.apk" \
+              -F 'uniqueName="vstest_1"'
+              | jq -r '.app_url')
+
+            TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run-async' \
+              --header 'Authorization: Bearer $access_key' \
+              --form 'executionType="Espresso"' \
+              --form 'runningType="fastFeedback"' \
+              --form 'app=@android/app/build/outputs/apk/release/app-release.apk' \
+              --form 'testApp=@android/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk' \
+              --form 'deviceQueries="@os='\''android'\''"' \
+              --form 'useTestOrchestrator="true"'
+              | jq -r '.test_url') 
+    artifacts:
+        - android/app/build/outputs/**/*.apk
