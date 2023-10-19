@@ -33,7 +33,7 @@ workflows:
               -F "uniqueName=vstest_2")
       - name: DigitalAi runTest
         script: |
-            TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run' \
+            TEST_URL=$(curl -X POST 'https://globaldemo.experitest.com/api/v1/test-run/execute-test-run-async' \
               -H 'Authorization: Bearer $access_key' \
               -F "executionType=Espresso" \
               -F "runningType=fastFeedback" \
