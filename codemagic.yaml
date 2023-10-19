@@ -38,7 +38,7 @@ workflows:
               -F "executionType=Espresso" \
               -F "runningType=fastFeedback" \
               -F app=@app/build/outputs/apk/release/app-release.apk \
-              -F testApp=@app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+              -F testApp=@app/build/outputs/apk/androidTest/release/app-release-androidTest.apk \
               -F 'deviceQueries="@os='\''android'\''"' \
               -F "useTestOrchestrator=true") 
     artifacts:
